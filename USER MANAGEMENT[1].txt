@@ -1,0 +1,209 @@
+SQL*Plus: Release 11.2.0.1.0 Production on Tue Jun 17 16:28:44 2025
+
+Copyright (c) 1982, 2010, Oracle.  All rights reserved.
+
+Enter user-name: oracle
+Enter password:
+
+Connected to:
+Oracle Database 11g Enterprise Edition Release 11.2.0.1.0 - Production
+With the Partitioning, OLAP, Data Mining and Real Application Testing options
+
+SQL> desc v$paraemter;
+ERROR:
+ORA-04043: object v$paraemter does not exist
+
+
+SQL> shutdown immediate
+Database closed.
+Database dismounted.
+ORACLE instance shut down.
+SQL> startup
+ORACLE instance started.
+
+Total System Global Area 1196883968 bytes
+Fixed Size                  1376212 bytes
+Variable Size             310378540 bytes
+Database Buffers          872415232 bytes
+Redo Buffers               12713984 bytes
+Database mounted.
+Database opened.
+SQL> startup force;
+ORACLE instance started.
+
+Total System Global Area 1196883968 bytes
+Fixed Size                  1376212 bytes
+Variable Size             310378540 bytes
+Database Buffers          872415232 bytes
+Redo Buffers               12713984 bytes
+Database mounted.
+Database opened.
+SQL> startup nomount;
+ORA-01081: cannot start already-running ORACLE - shut it down first
+SQL> desc dba_users;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ USERNAME                                  NOT NULL VARCHAR2(30)
+ USER_ID                                   NOT NULL NUMBER
+ PASSWORD                                           VARCHAR2(30)
+ ACCOUNT_STATUS                            NOT NULL VARCHAR2(32)
+ LOCK_DATE                                          DATE
+ EXPIRY_DATE                                        DATE
+ DEFAULT_TABLESPACE                        NOT NULL VARCHAR2(30)
+ TEMPORARY_TABLESPACE                      NOT NULL VARCHAR2(30)
+ CREATED                                   NOT NULL DATE
+ PROFILE                                   NOT NULL VARCHAR2(30)
+ INITIAL_RSRC_CONSUMER_GROUP                        VARCHAR2(30)
+ EXTERNAL_NAME                                      VARCHAR2(4000)
+ PASSWORD_VERSIONS                                  VARCHAR2(8)
+ EDITIONS_ENABLED                                   VARCHAR2(1)
+ AUTHENTICATION_TYPE                                VARCHAR2(8)
+
+SQL> show user;
+USER is "SYS"
+SQL> CREATE USER cr149 IDENTIFIED BY cr149;
+
+User created.
+
+SQL> desc dba_users;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ USERNAME                                  NOT NULL VARCHAR2(30)
+ USER_ID                                   NOT NULL NUMBER
+ PASSWORD                                           VARCHAR2(30)
+ ACCOUNT_STATUS                            NOT NULL VARCHAR2(32)
+ LOCK_DATE                                          DATE
+ EXPIRY_DATE                                        DATE
+ DEFAULT_TABLESPACE                        NOT NULL VARCHAR2(30)
+ TEMPORARY_TABLESPACE                      NOT NULL VARCHAR2(30)
+ CREATED                                   NOT NULL DATE
+ PROFILE                                   NOT NULL VARCHAR2(30)
+ INITIAL_RSRC_CONSUMER_GROUP                        VARCHAR2(30)
+ EXTERNAL_NAME                                      VARCHAR2(4000)
+ PASSWORD_VERSIONS                                  VARCHAR2(8)
+ EDITIONS_ENABLED                                   VARCHAR2(1)
+ AUTHENTICATION_TYPE                                VARCHAR2(8)
+
+SQL> select USERNAME, ACCOUNT_STATUS, CREATED from dba
+  2
+SQL> select USERNAME, ACCOUNT_STATUS, CREATED from dba_users where username ='cr149;
+ERROR:
+ORA-01756: quoted string not properly terminated
+
+
+SQL> ed
+SP2-0110: Cannot create save file "afiedt.buf"
+SQL> show user;
+USER is "SYS"
+SQL> conn / as sysdba
+Connected.
+SQL> GRANT CONNECT TO cr149;
+
+Grant succeeded.
+
+SQL> GREANT RESOURCE TO cr149;
+SP2-0734: unknown command beginning "GREANT RES..." - rest of line ignored.
+SQL> GRANT RESOURCE TO cr149;
+
+Grant succeeded.
+
+SQL> GRANT CREATE MATERIALIZED VIEW TO cr149;
+
+Grant succeeded.
+
+SQL> GRANT QUERY REWRITE TO cr149;
+
+Grant succeeded.
+
+SQL> GRANT CREATE VIEW TO cr149;
+
+Grant succeeded.
+
+SQL> GRANT execute ON sys.dbms_status TO cr149;
+GRANT execute ON sys.dbms_status TO cr149
+                     *
+ERROR at line 1:
+ORA-04042: procedure, function, package, or package body does not exist
+
+
+SQL> GRANT execute ON sys.dbms_stats TO cr149;
+
+Grant succeeded.
+
+SQL> desc dba_sys_privs;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ GRANTEE                                   NOT NULL VARCHAR2(30)
+ PRIVILEGE                                 NOT NULL VARCHAR2(40)
+ ADMIN_OPTION                                       VARCHAR2(3)
+
+SQL> select GRANTEE, PRIVILEGE from dba_sys_privs where GRANTEE='cr149';
+
+no rows selected
+
+SQL> desc dba_role_privs;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ GRANTEE                                            VARCHAR2(30)
+ GRANTED_ROLE                              NOT NULL VARCHAR2(30)
+ ADMIN_OPTION                                       VARCHAR2(3)
+ DEFAULT_ROLE                                       VARCHAR2(3)
+
+SQL> select GRANTEE, GRANTED_ROLE from dba_role_privs where GRANTEE= 'cr149';
+
+no rows selected
+
+SQL> select GRANTEE, GRANTED_ROLE from dba_role_privs where GRANTEE= 'A1';
+
+no rows selected
+
+SQL> show user;
+USER is "SYS"
+SQL> conn cr149/cr149;
+Connected.
+SQL> select * from tab;
+
+no rows selected
+
+SQL> select * from tab;
+
+no rows selected
+
+SQL> desc user_sys_privs;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ USERNAME                                           VARCHAR2(30)
+ PRIVILEGE                                 NOT NULL VARCHAR2(40)
+ ADMIN_OPTION                                       VARCHAR2(3)
+
+SQL> select USERNAME, PRIVILEGE from user_sys_privs where USERNAME='cr149';
+
+no rows selected
+
+SQL> desc user_role_privs;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ USERNAME                                           VARCHAR2(30)
+ GRANTED_ROLE                                       VARCHAR2(30)
+ ADMIN_OPTION                                       VARCHAR2(3)
+ DEFAULT_ROLE                                       VARCHAR2(3)
+ OS_GRANTED                                         VARCHAR2(3)
+
+SQL>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
